@@ -81,10 +81,16 @@ class User implements UserInterface
      */
     private $teams;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Tournament::class, mappedBy="user")
+     */
+    private $tournaments;
+
     public function __construct()
     {
         $this->reports = new ArrayCollection();
         $this->teams = new ArrayCollection();
+        $this->tournaments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -303,6 +309,34 @@ class User implements UserInterface
         if ($this->teams->contains($team)) {
             $this->teams->removeElement($team);
             $team->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tournament[]
+     */
+    public function getTournaments(): Collection
+    {
+        return $this->tournaments;
+    }
+
+    public function addTournament(Tournament $tournament): self
+    {
+        if (!$this->tournaments->contains($tournament)) {
+            $this->tournaments[] = $tournament;
+            $tournament->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournament(Tournament $tournament): self
+    {
+        if ($this->tournaments->contains($tournament)) {
+            $this->tournaments->removeElement($tournament);
+            $tournament->removeUser($this);
         }
 
         return $this;
