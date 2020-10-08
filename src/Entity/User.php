@@ -76,9 +76,15 @@ class User implements UserInterface
      */
     private $reports;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Team::class, mappedBy="user")
+     */
+    private $teams;
+
     public function __construct()
     {
         $this->reports = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -269,6 +275,34 @@ class User implements UserInterface
             if ($report->getUser() === $this) {
                 $report->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+            $team->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
+            $team->removeUser($this);
         }
 
         return $this;
