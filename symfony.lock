@@ -124,7 +124,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -196,6 +196,9 @@
             ".env"
         ]
     },
+    "symfony/form": {
+        "version": "v4.4.15"
+    },
     "symfony/framework-bundle": {
         "version": "4.4",
         "recipe": {
@@ -229,6 +232,9 @@
     "symfony/inflector": {
         "version": "v4.4.15"
     },
+    "symfony/intl": {
+        "version": "v4.4.15"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -241,8 +247,14 @@
     "symfony/mime": {
         "version": "v4.4.15"
     },
+    "symfony/options-resolver": {
+        "version": "v4.4.15"
+    },
     "symfony/orm-pack": {
         "version": "v2.0.0"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.18.1"
     },
     "symfony/polyfill-intl-idn": {
         "version": "v1.18.1"
