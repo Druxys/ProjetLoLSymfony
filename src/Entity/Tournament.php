@@ -64,9 +64,15 @@ class Tournament
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Rules::class, mappedBy="Tournament")
+     */
+    private $rules;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
+        $this->rules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,6 +198,37 @@ class Tournament
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rules[]
+     */
+    public function getRules(): Collection
+    {
+        return $this->rules;
+    }
+
+    public function addRules(Rules $rules): self
+    {
+        if (!$this->rules->contains($rules)) {
+            $this->rules[] = $rules;
+            $rules->setTournament($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRules(Rules $rules): self
+    {
+        if ($this->rules->contains($rules)) {
+            $this->rules->removeElement($rules);
+            // set the owning side to null (unless already changed)
+            if ($rules->getTournament() === $this) {
+                $rules->setTournament(null);
+            }
+        }
 
         return $this;
     }
