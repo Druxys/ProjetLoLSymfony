@@ -252,3 +252,6 @@ $RECYCLE.BIN/
 /jwt
 .pem
 # End of https://www.toptal.com/developers/gitignore/api/symfony,jetbrains+all,visualstudiocode,macos,windows,linux,composer
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
