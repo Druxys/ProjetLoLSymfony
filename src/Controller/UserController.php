@@ -22,11 +22,11 @@ class UserController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function register(Request $reqquest,ValidatorInterface $validator)
+    public function register(Request $request,ValidatorInterface $validator)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = new User();
-        $data = json_decode($reqquest->getContent(), true);
+        $data = json_decode($request->getContent(), true);
         $form =$this->createForm(RegisterFormType::class, $user);
         $form->submit($data);
         $violation = $validator->validate($user);
