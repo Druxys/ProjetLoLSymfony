@@ -32,7 +32,6 @@ class UserFixtures extends Fixture
                 ->setSummonerLol($faker->name)
                 ->setIsActive(true)
                 ->setIsBanned(false)
-                ->setRoles(["ROLE_USER"])
                 ->setCreatedAt($faker->dateTime($max = 'now', $timezone = null));
 
             $manager->persist($user);
