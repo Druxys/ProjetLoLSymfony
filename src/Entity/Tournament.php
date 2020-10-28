@@ -79,6 +79,7 @@ class Tournament
         $this->user = new ArrayCollection();
         $this->rules = new ArrayCollection();
         $this->games = new ArrayCollection();
+        $this->created_at = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
     }
 
     public function getId(): ?int
