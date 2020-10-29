@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use DateTime;
 use App\Repository\TournamentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -79,6 +79,7 @@ class Tournament
         $this->user = new ArrayCollection();
         $this->rules = new ArrayCollection();
         $this->games = new ArrayCollection();
+        $this->created_at = new DateTime('now');
     }
 
     public function getId(): ?int
