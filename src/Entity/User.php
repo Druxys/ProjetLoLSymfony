@@ -76,21 +76,23 @@ class User implements UserInterface
      */
     private $reports;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Team::class, mappedBy="user")
-     */
-    private $teams;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tournament::class, mappedBy="user")
      */
     private $tournaments;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UsersTeams::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $usersTeams;
+
+
     public function __construct()
     {
         $this->reports = new ArrayCollection();
-        $this->teams = new ArrayCollection();
         $this->tournaments = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -286,33 +288,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Team[]
-     */
-    public function getTeams(): Collection
-    {
-        return $this->teams;
-    }
-
-    public function addTeam(Team $team): self
-    {
-        if (!$this->teams->contains($team)) {
-            $this->teams[] = $team;
-            $team->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTeam(Team $team): self
-    {
-        if ($this->teams->contains($team)) {
-            $this->teams->removeElement($team);
-            $team->removeUser($this);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Tournament[]
@@ -341,4 +316,22 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getUsersTeams(): ?UsersTeams
+    {
+        return $this->usersTeams;
+    }
+
+    public function setUsersTeams(UsersTeams $usersTeams): self
+    {
+        $this->usersTeams = $usersTeams;
+
+        // set the owning side of the relation if necessary
+        if ($usersTeams->getUser() !== $this) {
+            $usersTeams->setUser($this);
+        }
+
+        return $this;
+    }
+
 }
