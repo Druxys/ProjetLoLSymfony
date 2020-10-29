@@ -20,11 +20,6 @@ class Team
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="teams")
-     */
-    private $user;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $created_at;
@@ -34,40 +29,20 @@ class Team
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToOne(targetEntity=UsersTeams::class, mappedBy="team", cascade={"persist", "remove"})
+     */
+    private $usersTeams;
+
+
     public function __construct()
     {
-        $this->user = new ArrayCollection();
+        $this->created_at = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
-        }
-
-        return $this;
     }
 
 
@@ -91,6 +66,23 @@ class Team
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getUsersTeams(): ?UsersTeams
+    {
+        return $this->usersTeams;
+    }
+
+    public function setUsersTeams(UsersTeams $usersTeams): self
+    {
+        $this->usersTeams = $usersTeams;
+
+        // set the owning side of the relation if necessary
+        if ($usersTeams->getTeam() !== $this) {
+            $usersTeams->setTeam($this);
+        }
 
         return $this;
     }
