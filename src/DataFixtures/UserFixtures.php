@@ -27,16 +27,15 @@ for ($i = 0; $i < 10; $i++){
     $user = new User();
 
     $password = $faker->password;
-    $user->setEmail($faker->email)
-        ->setPassword($this->passwordEncoder->encodePassword($user, $password))
-        ->setSummonerLol($faker->name)
-        ->setIsActive(true)
-        ->setIsBanned(false)
-        ->setRoles(["ROLE_USER"])
-        ->setCreatedAt($faker->dateTime($max = 'now', $timezone = null));
+            $user->setEmail($faker->email)
+                ->setPassword($this->passwordEncoder->encodePassword($user, $password))
+                ->setSummonerLol($faker->name)
+                ->setIsActive(true)
+                ->setIsBanned(false)
+                ->setCreatedAt($faker->dateTime($max = 'now', $timezone = null));
 
     $manager->persist($user);
-}
-$manager->flush();
-}
+    }
+        $manager->flush();
+    }
 }
