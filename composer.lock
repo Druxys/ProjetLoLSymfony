@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee17018caf5a08953b72c435e56e2335",
+    "content-hash": "3f573a3b75f12d1c3d571dc03bee316d",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1453,6 +1453,7 @@
             "time": "2020-07-30T16:57:33+00:00"
         },
         {
+
             "name": "fzaninotto/faker",
             "version": "v1.9.1",
             "source": {
@@ -1503,6 +1504,7 @@
             "time": "2019-12-12T13:22:17+00:00"
         },
         {
+
             "name": "lcobucci/jwt",
             "version": "3.3.3",
             "source": {
