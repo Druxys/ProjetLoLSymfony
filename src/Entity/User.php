@@ -3,13 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
 {
@@ -22,6 +24,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message = "toto = 0")
      */
     private $email;
 
@@ -44,12 +47,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $is_active;
+    private $is_active = 1;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $is_banned;
+    private $is_banned = 0;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -92,6 +95,7 @@ class User implements UserInterface
     {
         $this->reports = new ArrayCollection();
         $this->tournaments = new ArrayCollection();
+        $this->created_at = new DateTime('now');
         $this->teams = new ArrayCollection();
     }
 
@@ -134,11 +138,12 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function setRole() {
+        $this->roles = ['ROLE_USER'];
     }
 
     /**
