@@ -31,11 +31,20 @@ class UserFixtures extends Fixture
                 ->setPassword($this->passwordEncoder->encodePassword($user, $password))
                 ->setSummonerLol($faker->name)
                 ->setIsActive(true)
-                ->setIsBanned(false)
-                ->setCreatedAt($faker->dateTime($max = 'now', $timezone = null));
+                ->setIsBanned(false);
 
             $manager->persist($user);
         }
+        $user2 = new User();
+        $user2->setEmail('admin@admin.fr')
+            ->setPassword($this->passwordEncoder->encodePassword(
+                $user2,
+                'admin'
+            ))
+            ->setSummonerLol("phyrro")
+            ->setIsActive(true)
+            ->setIsBanned(false);
+            $manager->persist($user2);  
         $manager->flush();
     }
 }
