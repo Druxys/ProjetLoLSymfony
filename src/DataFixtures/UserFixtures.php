@@ -19,24 +19,24 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
 
-        $faker = Factory::create();
+$faker = Factory::create();
 
 
-        for ($i = 0; $i < 10; $i++){
+for ($i = 0; $i < 10; $i++){
 
-            $user = new User();
+    $user = new User();
 
-            $password = $faker->password;
-            $user->setEmail($faker->email)
-                ->setPassword($this->passwordEncoder->encodePassword($user, $password))
-                ->setSummonerLol($faker->name)
-                ->setIsActive(true)
-                ->setIsBanned(false)
-                ->setRoles(["ROLE_USER"])
-                ->setCreatedAt($faker->dateTime($max = 'now', $timezone = null));
+    $password = $faker->password;
+    $user->setEmail($faker->email)
+        ->setPassword($this->passwordEncoder->encodePassword($user, $password))
+        ->setSummonerLol($faker->name)
+        ->setIsActive(true)
+        ->setIsBanned(false)
+        ->setRoles(["ROLE_USER"])
+        ->setCreatedAt($faker->dateTime($max = 'now', $timezone = null));
 
-            $manager->persist($user);
-        }
-        $manager->flush();
-    }
+    $manager->persist($user);
+}
+$manager->flush();
+}
 }
