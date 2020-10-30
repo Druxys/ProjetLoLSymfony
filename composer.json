@@ -20,7 +20,6 @@
         "symfony/form": "4.4.*",
         "symfony/framework-bundle": "4.4.*",
         "symfony/http-foundation": "4.4.*",
-        "symfony/phpunit-bridge": "^5.1",
         "symfony/security-bundle": "4.4.*",
         "symfony/serializer": "4.4.*",
         "symfony/validator": "4.4.*",
@@ -28,9 +27,10 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
-        "symfony/maker-bundle": "^1.21"
+        "symfony/maker-bundle": "^1.21",
+        "phpunit/phpunit": "^9"
     },
-    "config": {
+        "config": {
         "preferred-install": {
             "*": "dist"
         },

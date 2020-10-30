@@ -19,16 +19,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TournamentController extends AbstractController
 {
-    protected function serializeJson($objet)
-    {
-        $defaultContext = [
-            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
-                return $object->getNom();
-            },
-        ];
-        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
-        $serializer = new Serializer([$normalizer], [new JsonEncoder()]);
-        return $serializer->serialize($objet, 'json');
+        protected function serializeJson($objet)
+        {
+            $defaultContext = [
+                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                    return $object->getNom();
+                },
+            ];
+            $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+            $serializer = new Serializer([$normalizer], [new JsonEncoder()]);
+            return $serializer->serialize($objet, 'json');
     }
     /**
      * @Route("/api/tournament/create", name="tournament", methods={"POST"})
@@ -43,7 +43,7 @@ class TournamentController extends AbstractController
         $form->submit($data);
         $violation = $validator->validate($tournament);
         if (0 !== count($violation)) {
-            foreach ($violation as $$errors) {
+            foreach ($violation as $errors) {
                 return new JsonResponse($errors->getMessage(), Response::HTTP_BAD_REQUEST);
             }
         }
