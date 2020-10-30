@@ -97,6 +97,7 @@ class User implements UserInterface
         $this->tournaments = new ArrayCollection();
         $this->created_at = new DateTime('now');
         $this->teams = new ArrayCollection();
+        $this->created_at = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
     }
 
     public function getId(): ?int
