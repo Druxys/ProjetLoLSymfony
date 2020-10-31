@@ -33,7 +33,7 @@ class TournamentController extends AbstractController
     /**
      * @Route("/api/tournament/create", name="tournament", methods={"POST"})
      */
-    public function TournamentCreate(Request $request, ValidatorInterface $validator)
+    public function tournamentCreate(Request $request, ValidatorInterface $validator)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $tournament = new Tournament();
@@ -60,7 +60,7 @@ class TournamentController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function TournamentJson(TournamentRepository $tournamentRepository, Request $request)
+    public function tournamentJson(TournamentRepository $tournamentRepository, Request $request)
     {
         $filter = [];
         $em = $this->getDoctrine()->getManager();
@@ -78,7 +78,7 @@ class TournamentController extends AbstractController
      * @param TournamentRepository $tournamentRepository
      * @return JsonResponse
      */
-    public function userUpdate(Request $request, TournamentRepository $tournamentRepository, ValidatorInterface $validator)
+    public function tournamentUpdate(Request $request, TournamentRepository $tournamentRepository, ValidatorInterface $validator)
     {
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -101,12 +101,12 @@ class TournamentController extends AbstractController
         return JsonResponse::fromJsonString($this->serializeJson($tournament));
     }
      /**
-     * @Route("/api/tournament/delete", name="commune_delete", methods={"DELETE"})
+     * @Route("/api/tournament/delete", name="tournament_delete", methods={"DELETE"})
      * @param Request $request
      * @param TournamentRepository $tournamentRepository
      * @return Response
      */
-    public function TournamentDelete(Request $request, TournamentRepository $tournamentRepository)
+    public function tournamentDelete(Request $request, TournamentRepository $tournamentRepository)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $response = new Response();
