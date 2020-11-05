@@ -33,6 +33,6 @@ class registerFormTypeTest extends TypeTestCase
 
         // check that $formData was modified as expected when the form was submitted
         $this->assertEquals($expected, $model);
-    }
+}
 
 }
