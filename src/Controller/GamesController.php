@@ -55,7 +55,7 @@ class GamesController extends AbstractController
                 $form->submit($data);
                 $violation = $validator->validate($game);
                 if (0 !== count($violation)) {
-                    foreach ($violation as $$errors) {
+                    foreach ($violation as $errors) {
                         return new JsonResponse($errors->getMessage(), Response::HTTP_BAD_REQUEST);
                     }
                 }
