@@ -62,7 +62,23 @@ class TeamController extends AbstractController
         return $response;
 
     }
-
+    /**
+     * @Route("/getAllTeam", name="getAllTeam")
+     * @param Request $request
+     * @param TeamRepository $reportRepository
+     * @return JsonResponse
+     */
+    public function getReportForSummoner(Request $request, TeamRepository $reportRepository){
+        $filter = [];
+        $em = $this->getDoctrine()->getManager();
+        $metadata = $em->getClassMetadata(Team::class)->getFieldNames();
+        foreach ($metadata as $value) {
+            if ($request->query->get($value)) {
+                $filter[$value] = $request->query->get($value);
+            }
+        }
+        return JsonResponse::fromJsonString($reportRepository->findBy($filter));
+    }
     /**
      * @Route("/sendInvitation", name="sendInvitation")
      * @param Request $request
@@ -167,7 +183,7 @@ class TeamController extends AbstractController
     }
 
     /**
-     * @Route("/deleteTeam", name="deleteTeam")
+     * @Route("/deleteTeam" , name="deleteTeam")
      * @param Request $request
      * @param TeamRepository $teamRepository
      * @return Response
