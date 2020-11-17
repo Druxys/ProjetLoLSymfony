@@ -161,7 +161,7 @@ class TeamController extends AbstractController
 
         $entityManager->persist($team);
         $entityManager->flush();
-        $response->setContent("Team update");--
+        $response->setContent("Team update");
         $response->setStatusCode(Response::HTTP_OK);
         return $response;
     }
