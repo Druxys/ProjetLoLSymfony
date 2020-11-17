@@ -23,13 +23,13 @@ class UsersTeams
     private $invitation;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="usersTeams", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="usersTeams", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity=Team::class, inversedBy="usersTeams", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="usersTeams", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $team;

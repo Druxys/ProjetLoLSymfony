@@ -30,7 +30,7 @@ class Team
     private $updated_at;
 
     /**
-     * @ORM\OneToOne(targetEntity=UsersTeams::class, mappedBy="team", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=UsersTeams::class, mappedBy="team", cascade={"persist", "remove"})
      */
     private $usersTeams;
 
