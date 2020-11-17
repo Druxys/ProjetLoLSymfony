@@ -136,7 +136,7 @@ class TeamController extends AbstractController
     }
 
     /**
-     * @Route("/updateTeam, name="updateTeam")
+     * @Route("/updateTeam", name="updateTeam")
      * @param Request $request
      * @param TeamRepository $teamRepository
      * @param ValidatorInterface $validator
@@ -167,6 +167,7 @@ class TeamController extends AbstractController
     }
 
     /**
+     * @Route("/delete", name="deleteTeam")
      * @param Request $request
      * @param TeamRepository $teamRepository
      * @return Response

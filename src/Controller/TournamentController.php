@@ -23,7 +23,7 @@ class TournamentController extends AbstractController
         {
             $defaultContext = [
                 AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
-                    return $object->getNom();
+                    return $object->getName();
                 },
             ];
             $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
