@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\RulesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,7 +37,11 @@ class Rules
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
+    public function __construct()
+    {
 
+        $this->created_at = new DateTime('now');
+    }
     public function getId(): ?int
     {
         return $this->id;
