@@ -167,7 +167,7 @@ class TeamController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="deleteTeam")
+     * @Route("/deleteTeam", name="deleteTeam")
      * @param Request $request
      * @param TeamRepository $teamRepository
      * @return Response

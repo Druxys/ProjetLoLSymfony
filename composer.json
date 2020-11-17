@@ -12,6 +12,7 @@
         "doctrine/orm": "^2.7",
         "fzaninotto/faker": "^1.9",
         "lexik/jwt-authentication-bundle": "^2.8",
+        "nelmio/cors-bundle": "^2.1",
         "symfony/browser-kit": "4.4.*",
         "symfony/console": "4.4.*",
         "symfony/css-selector": "4.4.*",
@@ -27,8 +28,9 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "phpunit/phpunit": "^9",
         "symfony/maker-bundle": "^1.21",
-        "phpunit/phpunit": "^9"
+        "symfony/web-server-bundle": "4.4.*"
     },
         "config": {
         "preferred-install": {
