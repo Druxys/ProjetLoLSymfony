@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\GameRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -52,6 +53,11 @@ class Game
      */
     private $updated_at;
 
+    public function __construct()
+    {
+
+        $this->created_at = new DateTime('now');
+    }
     public function getId(): ?int
     {
         return $this->id;
