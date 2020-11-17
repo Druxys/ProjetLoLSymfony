@@ -2,30 +2,30 @@
 
 namespace App\Controller;
 
-use App\Entity\Game;
+use App\Repository\RulesRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Rules;
 use App\Entity\Tournament;
-use App\Form\UpdateGameFormType;
-use App\Form\CreateGameFormType;
-use App\Repository\GameRepository;
+use App\Form\UpdateRulesTournamentFormType;
+use App\Form\CreateRulesTournamentFormType;
 use App\Repository\TournamentRepository;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class GamesController extends AbstractController
+class RulesController extends AbstractController
 {
     protected function serializeJson($objet)
     {
         $defaultContext = [
             AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
-                return $object->getTournament();
+                return $object->getId();
             },
         ];
         $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
@@ -33,16 +33,17 @@ class GamesController extends AbstractController
         return $serializer->serialize($objet, 'json');
     }
     /**
-     * @Route("api/game/create", name="game", methods={"POST"})
+     * @Route("api/rules/create", name="rules", methods={"POST"})
      * @param TournamentRepository $tournamentRepository
      */
-    public function GameCreate(Request $request, ValidatorInterface $validator, TournamentRepository $tournamentRepository)
+    public function CreateRulesTournament(Request $request, ValidatorInterface $validator,TournamentRepository $tournamentRepository )
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $game = new Game();
+        $rules = new Rules();
         $tournament = new Tournament();
         $response = new Response();
         $data = json_decode($request->getContent(), true);
+        var_dump($data);
         if (isset($data["tournament_id"])) {
             $id = $data["tournament_id"];
             $tournament = $tournamentRepository->find($id);
@@ -50,62 +51,61 @@ class GamesController extends AbstractController
                 $response->setContent("Ce tournoi n'existe pas");
                 $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             } else {
-                $game->setTournament($tournament);
-                $form = $this->createForm(CreateGameFormType::class, $game);
+                $rules->setTournament($tournament);
+                $form = $this->createForm(CreateRulesTournamentFormType::class, $rules);
                 $form->submit($data);
-                $violation = $validator->validate($game);
+                $violation = $validator->validate($rules);
                 if (0 !== count($violation)) {
                     foreach ($violation as $$errors) {
                         return new JsonResponse($errors->getMessage(), Response::HTTP_BAD_REQUEST);
                     }
                 }
-                $entityManager->persist($game);
+                $entityManager->persist($rules);
                 $entityManager->flush();
                 $response->setStatusCode(Response::HTTP_OK);
-                $response->setContent("creation tournoi numéro =  " . $id);
+                $response->setContent("creation regle pour le tournoi =  " . $id);
             }
         } else {
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
         return $response;
     }
-
-    /**
-     * @Route("api/game/getAll", name="game_json", methods={"GET"})
-     * @param GameRepository $gameRepository
+     /**
+     * @Route("api/rules/getRules", name="rules_json", methods={"GET"})
+     * @param RulesRepository $rulesRepository
      * @param Request $request
      * @return Response
      */
-    public function GameJson(GameRepository $gameRepository, Request $request)
+    public function RulesJson(RulesRepository $rulesRepository, Request $request)
     {
         $filter = [];
         $em = $this->getDoctrine()->getManager();
-        $metadata = $em->getClassMetadata(Game::class)->getFieldNames();
+        $metadata = $em->getClassMetadata(Rules::class)->getFieldNames();
         foreach ($metadata as $value) {
             if ($request->query->get($value)) {
                 $filter[$value] = $request->query->get($value);
             }
         }
-        return JsonResponse::fromJsonString($this->serializeJson($gameRepository->findBy($filter)));
+        return JsonResponse::fromJsonString($this->serializeJson($rulesRepository->findBy($filter)));
     }
-    /**
-     * @Route("api/game/update/", name="gameUpdate", methods={"PATCH"})
+        /**
+     * @Route("api/rules/update/", name="RulesUpdate", methods={"PATCH"})
      * @param Request $request
      * @param TournamentRepository $ournamentRepository
-     * @param GameRepository $gameRepository
+     * @param RulesRepository $rulesRepository
      * @return JsonResponse
      */
-    public function GameUpdate(Request $request, GameRepository $gameRepository, ValidatorInterface $validator, TournamentRepository $tournamentRepository)
+    public function RulesUpdate(Request $request, RulesRepository $rulesRepository, ValidatorInterface $validator, TournamentRepository $tournamentRepository)
     {
 
 
         $entityManager = $this->getDoctrine()->getManager();
         $data = json_decode($request->getContent(), true);
-        $game = $gameRepository->findOneBy(['id' => $data['id']]);
+        $rules = $rulesRepository->findOneBy(['id' => $data['id']]);
 
-        $form = $this->createForm(UpdateGameFormType::class, $game);
+        $form = $this->createForm(UpdateRulesTournamentFormType::class, $rules);
         $form->submit($data);
-        $violation = $validator->validate($game);
+        $violation = $validator->validate($rules);
 
         if (0 !== count($violation)) {
             foreach ($violation as $errors) {
@@ -113,18 +113,18 @@ class GamesController extends AbstractController
             }
         }
         var_dump($data);
-        $entityManager->persist($game);
+        $entityManager->persist($rules);
         $entityManager->flush();
 
-        return JsonResponse::fromJsonString($this->serializeJson($game));
+        return JsonResponse::fromJsonString($this->serializeJson($rules));
     }
-    /**
-     * @Route("api/game/delete", name="game_delete", methods={"DELETE"})
+     /**
+     * @Route("api/rules/delete", name="rules_delete", methods={"DELETE"})
      * @param Request $request
-     * @param GameRepository $gameRepository
+     * @param RulesRepository $rulesRepository
      * @return Response
      */
-    public function GameDelete(Request $request, GameRepository $gameRepository)
+    public function RulesDelete(Request $request, RulesRepository $rulesRepository)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $response = new Response();
@@ -132,17 +132,16 @@ class GamesController extends AbstractController
             $request->getContent(),
             true
         );
-        var_dump($data);
         if (isset($data["id"])) {
-            $game = $gameRepository->find($data["id"]);
-            var_dump($data["id"]);
-            if ($game === null) {
-                $response->setContent("Cet game n'existe pas" + $game);
+            $rules = $rulesRepository->find($data["id"]);
+
+            if ($rules === null) {
+                $response->setContent("Les règles du tournoi n'existe pas" + $rules);
                 $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             } else {
-                $entityManager->remove($game);
+                $entityManager->remove($rules);
                 $entityManager->flush();
-                $response->setContent("Cet game à était supprimé");
+                $response->setContent("Les règles du tournoi ont étaient supprimé");
                 $response->setStatusCode(Response::HTTP_OK);
             }
         } else {
