@@ -86,7 +86,7 @@ class User implements UserInterface
     private $tournaments;
 
     /**
-     * @ORM\OneToOne(targetEntity=UsersTeams::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=UsersTeams::class, mappedBy="user", cascade={"persist"})
      */
     private $usersTeams;
 

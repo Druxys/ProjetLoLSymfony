@@ -35,7 +35,6 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?User
     {

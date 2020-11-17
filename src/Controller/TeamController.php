@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Team;
 use App\Entity\UsersTeams;
 use App\Form\CreateTeamFormType;
+use App\Form\SendInvitationFormType;
+use App\Form\UpdateTeamFormType;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use App\Repository\UsersTeamsRepository;
@@ -33,7 +35,7 @@ class TeamController extends AbstractController
         $response = new Response();
 
         $data = json_decode($request->getContent(), true);
-        $user = $userRepository->find($data['team_id']);
+        $user = $userRepository->find($data['user_id']);
         if ($user === null){
             $response->setContent("Cet utilisateur n'existe pas");
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
@@ -62,7 +64,7 @@ class TeamController extends AbstractController
     }
 
     /**
-     * @Route("/sendInvitation", name=sendInvitation)
+     * @Route("/sendInvitation", name="sendInvitation")
      * @param Request $request
      * @param ValidatorInterface $validator
      * @param TeamRepository $teamRepository
@@ -75,7 +77,7 @@ class TeamController extends AbstractController
         $usersTeams = new UsersTeams();
         $response = new Response();
         $data = json_decode($request->getContent(), true);
-        $user = $userRepository->findBy(["summoner_lol" => $data['summoner_lol']]);
+        $user = $userRepository->findOneBy(["summoner_lol" => $data["summoner_lol"]]);
         $team = $teamRepository->find($data['team_id']);
         if ($user === null) {
             $response->setContent("Cet utilisateur n'existe pas");
@@ -84,7 +86,7 @@ class TeamController extends AbstractController
             $usersTeams->setUser($user);
             $usersTeams->setTeam($team);
             $usersTeams->setInvitation(true);
-            $form = $this->createForm(CreateTeamFormType::class, $team);
+            $form = $this->createForm(SendInvitationFormType::class, $user);
             $form->submit($data);
             $violation = $validator->validate($team);
             if (0 !== count($violation)) {
@@ -101,15 +103,17 @@ class TeamController extends AbstractController
     }
 
     /**
-     * @Route("/responseInvitation", name=sendInvitation)
+     * @Route("/responseInvitation", name="responseInvitation")
      * @param Request $request
      * @param UsersTeamsRepository $usersTeamsRepository
+     * @return JsonResponse|Response
      */
     public function responseInvitation(Request $request, UsersTeamsRepository $usersTeamsRepository){
         $entityManager = $this->getDoctrine()->getManager();
         $response = new Response();
         $data = json_decode($request->getContent(), true);
-        $usersTeams = $usersTeamsRepository->findUserByTeam('user_id', 'team_id');
+        $usersTeams = $usersTeamsRepository->findOneBy(["user" => $data['user_id'], "team" =>$data['team_id']]);
+
         if ($usersTeams === null){
             $response->setContent("Cet utilisateur n'existe pas");
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
@@ -126,6 +130,56 @@ class TeamController extends AbstractController
                 $response->setContent("Invitation refusé");
                 $response->setStatusCode(Response::HTTP_OK);
             }
+
         }
+        return $response;
+    }
+
+    /**
+     * @Route("/updateTeam, name="updateTeam")
+     * @param Request $request
+     * @param TeamRepository $teamRepository
+     * @param ValidatorInterface $validator
+     * @return JsonResponse|Response
+     */
+    public function updateTeam(Request $request, TeamRepository $teamRepository ,ValidatorInterface $validator) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $response = new Response();
+        $data = json_decode($request->getContent(), true);
+
+        $team = $teamRepository->find([$data['id']]);
+
+        $form = $this->createForm(UpdateTeamFormType::class, $team);
+        $form->submit($data);
+        $violation = $validator->validate($team);
+
+        if (0 !== count($violation)) {
+            foreach ($violation as $errors) {
+                return new JsonResponse($errors->getMessage(), Response::HTTP_BAD_REQUEST);
+            }
+        }
+
+        $entityManager->persist($team);
+        $entityManager->flush();
+        $response->setContent("Team update");--
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response;
+    }
+
+    /**
+     * @param Request $request
+     * @param TeamRepository $teamRepository
+     * @return Response
+     */
+    public function deleteTeam(Request $request, TeamRepository $teamRepository) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $response = new Response();
+        $data = json_decode($request->getContent(), true);
+        $team = $teamRepository->find([$data['id']]);
+        $entityManager->persist($team);
+        $entityManager->flush();
+        $response->setContent("Team deleted");
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response;
     }
 }

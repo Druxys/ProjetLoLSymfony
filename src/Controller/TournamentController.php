@@ -78,7 +78,7 @@ class TournamentController extends AbstractController
      * @param TournamentRepository $tournamentRepository
      * @return JsonResponse
      */
-    public function userUpdate(Request $request, TournamentRepository $tournamentRepository, ValidatorInterface $validator)
+    public function tournamentUpdate(Request $request, TournamentRepository $tournamentRepository, ValidatorInterface $validator)
     {
 
         $entityManager = $this->getDoctrine()->getManager();

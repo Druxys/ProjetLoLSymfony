@@ -47,13 +47,4 @@ class UsersTeamsRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findUserByTeam($user, $team){
-        return $this->createQueryBuilder('b')
-            ->where('b.user > :user')
-            ->andWhere('b.team > :team')
-            ->setParameter('user', $user)
-            ->setParameter('team', $team)
-            ->getQuery()
-            ->getResult();
-    }
 }
