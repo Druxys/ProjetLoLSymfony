@@ -30,7 +30,7 @@
         "version": "3.0.2"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -123,6 +123,9 @@
     },
     "symfony/deprecation-contracts": {
         "version": "v2.2.0"
+    },
+    "symfony/http-client": {
+        "version": "v4.4.16"
     },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.20.0"
