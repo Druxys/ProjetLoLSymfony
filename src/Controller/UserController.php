@@ -107,6 +107,23 @@ class UserController extends AbstractController
         return JsonResponse::fromJsonString($this->serializeJson($user));
     }
     /**
+     * @Route("/getUser", name="getAllTeam")
+     * @param Request $request
+     * @param UserRepository $reportRepository
+     * @return JsonResponse
+     */
+    public function getReportForSummoner(Request $request, UserRepository $reportRepository){
+        $filter = [];
+        $em = $this->getDoctrine()->getManager();
+        $metadata = $em->getClassMetadata(User::class)->getFieldNames();
+        foreach ($metadata as $value) {
+            if ($request->query->get($value)) {
+                $filter[$value] = $request->query->get($value);
+            }
+        }
+        return JsonResponse::fromJsonString($reportRepository->findBy($filter));
+}
+    /**
      * @Route("/api/user/delete", name="userDelete", methods={"DELETE"})
      * @param Request $request
      * @param UserRepository $userRepository
