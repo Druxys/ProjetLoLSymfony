@@ -107,7 +107,7 @@ class UserController extends AbstractController
         return JsonResponse::fromJsonString($this->serializeJson($user));
     }
     /**
-     * @Route("/getUser", name="getAllTeam")
+     * @Route("/getUser", name="getUser")
      * @param Request $request
      * @param UserRepository $reportRepository
      * @return JsonResponse

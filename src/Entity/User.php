@@ -88,7 +88,7 @@ class User implements UserInterface
     private $tournaments;
 
     /**
-     * @ORM\OneToMany(targetEntity=UsersTeams::class, mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=UsersTeams::class, mappedBy="user")
      */
     private $usersTeams;
 
@@ -325,7 +325,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUsersTeams(): ?UsersTeams
+    public function getUsersTeams(): UsersTeams
     {
         return $this->usersTeams;
     }
