@@ -98,7 +98,7 @@ class User implements UserInterface
         $this->reports = new ArrayCollection();
         $this->tournaments = new ArrayCollection();
         $this->created_at = new DateTime('now');
-        $this->teams = new ArrayCollection();
+        $this->usersTeams = new ArrayCollection();
         $this->created_at = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
     }
 
@@ -325,7 +325,10 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUsersTeams(): UsersTeams
+    /**
+     * @return Collection|UsersTeams[]
+     **/
+    public function getUsersTeams(): Collection
     {
         return $this->usersTeams;
     }
