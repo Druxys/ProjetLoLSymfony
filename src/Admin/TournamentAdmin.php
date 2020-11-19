@@ -37,8 +37,6 @@ final class TournamentAdmin extends AbstractAdmin
         ->add('numbers_participants')
         ->add('type_tournament')
         ->add('group_stage');
-
-    ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -50,6 +48,5 @@ final class TournamentAdmin extends AbstractAdmin
         ->addIdentifier('numbers_participants')
         ->addIdentifier('type_tournament')
         ->addIdentifier('group_stage');
-    ;
     }
 }

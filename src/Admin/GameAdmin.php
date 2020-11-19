@@ -7,21 +7,20 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-
-final class RulesAdmin extends AbstractAdmin
+use Sonata\AdminBundle\Form\Type\ModelType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+final class GameAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper->add('description', TextType::class)
-        ->add('updated_at', DateType::class);
+        $formMapper->add('team_1', NumberType::class)
+        ->add('team_2', NumberType::class);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-        ->add('description');
+        ->add('team_1');
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -31,8 +30,15 @@ final class RulesAdmin extends AbstractAdmin
             'class' => Tournament::class,
             'choice_label' => 'name',
         ])
-        ->addIdentifier('description')
-        ->add('created_at')
-        ->add('updated_at');
+        ->add('team_1', ModelType::class, [
+            'class' => Team::class,
+            'property' => 'name',
+        ])
+        ->add('team_2', ModelType::class, [
+            'class' => Team::class,
+            'property' => 'name',
+        ])
+        ->add('created_at');
+        
     }
 }

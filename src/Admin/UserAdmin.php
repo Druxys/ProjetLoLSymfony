@@ -25,8 +25,6 @@ final class UserAdmin extends AbstractAdmin
         ->add('email')
         ->add('password')
         ->add('summoner_lol');
-
-    ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -36,7 +34,6 @@ final class UserAdmin extends AbstractAdmin
         ->addIdentifier('summoner_lol')
         ->addIdentifier('roles')
         ->addIdentifier('created_at')
-        ->addIdentifier('is_banned')
-    ;
+        ->addIdentifier('is_banned');
     }
 }

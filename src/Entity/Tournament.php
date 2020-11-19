@@ -65,7 +65,7 @@ class Tournament
     private $updated_at;
 
     /**
-     * @ORM\OneToMany(targetEntity=Rules::class, mappedBy="tournament")
+     * @ORM\OneToMany(targetEntity=Rules::class, mappedBy="Tournament")
      */
     private $rules;
 
@@ -81,7 +81,10 @@ class Tournament
         $this->games = new ArrayCollection();
         $this->created_at = new DateTime('now');
     }
-
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }
     public function getId(): ?int
     {
         return $this->id;

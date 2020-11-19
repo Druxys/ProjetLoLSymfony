@@ -19,8 +19,6 @@ final class TeamAdmin extends AbstractAdmin
     {
         $datagridMapper
         ->add('name');
-
-    ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -28,6 +26,5 @@ final class TeamAdmin extends AbstractAdmin
         $listMapper
         ->addIdentifier('name')
         ->addIdentifier('created_at');
-    ;
     }
 }
