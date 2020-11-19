@@ -65,7 +65,7 @@ class Tournament
     private $updated_at;
 
     /**
-     * @ORM\OneToMany(targetEntity=Rules::class, mappedBy="Tournament")
+     * @ORM\OneToMany(targetEntity=Rules::class, mappedBy="tournament")
      */
     private $rules;
 

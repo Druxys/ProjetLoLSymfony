@@ -19,7 +19,7 @@ class Rules
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tournament::class, inversedBy="description")
+     * @ORM\ManyToOne(targetEntity=Tournament::class, inversedBy="rules")
      */
     private $Tournament;
 
