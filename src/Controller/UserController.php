@@ -38,7 +38,9 @@ class UserController extends AbstractController
 
     /**
      * @Route("/sign-up", name="register", methods={"POST"})
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return Response
      */
     public function register(UserPasswordEncoderInterface $passwordEncoder, Request $request, ValidatorInterface $validator)
@@ -49,6 +51,7 @@ class UserController extends AbstractController
         $form = $this->createForm(RegisterFormType::class, $user);
         $form->submit($data);
         $violation = $validator->validate($user);
+        dump($violation);
         if (0 !== count($violation)) {
             foreach ($violation as $errors) {
                 return new JsonResponse($errors->getMessage(), Response::HTTP_BAD_REQUEST);
