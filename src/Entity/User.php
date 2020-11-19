@@ -92,7 +92,10 @@ class User implements UserInterface
      */
     private $usersTeams;
 
-
+    public function __toString()
+    {
+        return (string) $this->getSummonerLol();
+    }
     public function __construct()
     {
         $this->reports = new ArrayCollection();

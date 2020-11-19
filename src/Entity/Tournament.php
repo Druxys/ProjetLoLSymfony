@@ -81,7 +81,10 @@ class Tournament
         $this->games = new ArrayCollection();
         $this->created_at = new DateTime('now');
     }
-
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }
     public function getId(): ?int
     {
         return $this->id;
