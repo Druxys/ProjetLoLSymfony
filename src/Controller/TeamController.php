@@ -82,10 +82,10 @@ class TeamController extends AbstractController
     /**
      * @Route("/getAllTeam", name="getAllTeam", methods={"GET"})
      * @param Request $request
-     * @param UsersTeamsRepository $userTeamsRepository
+     * @param UsersTeamsRepository $TeamRepository
      * @return Response
      */
-    public function getAllTeam(Request $request, UsersTeamsRepository $userTeamsRepository){
+    public function getAllTeam(Request $request, TeamRepository $TeamRepository){
         $filter = [];
         $em = $this->getDoctrine()->getManager();
         $metadata = $em->getClassMetadata(Team::class)->getFieldNames();
@@ -94,19 +94,9 @@ class TeamController extends AbstractController
                 $filter[$value] = $request->query->get($value);
             }
         }
-        return JsonResponse::fromJsonString($this->serializeJson($userTeamsRepository->findBy($filter)));
+        return JsonResponse::fromJsonString($this->serializeJson($TeamRepository->findBy($filter)));
     }
 
-    /**
-     * @Route("/getTestAllTeam", name="getTestAllTeam", methods={"GET"})
-     * @param Request $request
-     * @param UsersTeamsRepository $userTeamsRepository
-     * @return Response
-     */
-    public function getTestAllTeam(Request $request, UsersTeamsRepository $userTeamsRepository){
-        $entityManager = $this->getDoctrine()->getManager();
-
-    }
     /**
      * @Route("/sendInvitation", name="sendInvitation")
      * @param Request $request
