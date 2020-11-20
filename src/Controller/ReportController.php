@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Report;
+use OpenApi\Annotations as OA;
 use App\Form\CreateReportFormType;
 use App\Repository\ReportRepository;
 use App\Repository\UserRepository;
@@ -17,6 +18,7 @@ class ReportController extends AbstractController
 {
     /**
      * @Route("/createReport", name="createReport")
+     * @OA\Tag(name="Report")
      * @param Request $request
      * @param UserRepository $userRepository
      * @param ValidatorInterface $validator
@@ -56,6 +58,7 @@ class ReportController extends AbstractController
 
     /**
      * @Route("/getAllReport", name="getAllReport")
+     * @OA\Tag(name="Report")
      * @param Request $request
      * @param ReportRepository $reportRepository
      * @return JsonResponse
