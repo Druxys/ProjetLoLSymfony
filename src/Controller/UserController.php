@@ -51,7 +51,6 @@ class UserController extends AbstractController
         $form = $this->createForm(RegisterFormType::class, $user);
         $form->submit($data);
         $violation = $validator->validate($user);
-        dump($violation);
         if (0 !== count($violation)) {
             foreach ($violation as $errors) {
                 return new JsonResponse($errors->getMessage(), Response::HTTP_BAD_REQUEST);
@@ -106,6 +105,23 @@ class UserController extends AbstractController
 
         return JsonResponse::fromJsonString($this->serializeJson($user));
     }
+    /**
+     * @Route("/getUser", name="getUser")
+     * @param Request $request
+     * @param UserRepository $reportRepository
+     * @return JsonResponse
+     */
+    public function getReportForSummoner(Request $request, UserRepository $reportRepository){
+        $filter = [];
+        $em = $this->getDoctrine()->getManager();
+        $metadata = $em->getClassMetadata(User::class)->getFieldNames();
+        foreach ($metadata as $value) {
+            if ($request->query->get($value)) {
+                $filter[$value] = $request->query->get($value);
+            }
+        }
+        return JsonResponse::fromJsonString($reportRepository->findBy($filter));
+}
     /**
      * @Route("/api/user/delete", name="userDelete", methods={"DELETE"})
      * @param Request $request

@@ -15,10 +15,26 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TeamController extends AbstractController
 {
+
+    protected function serializeJson($objet)
+    {
+        $defaultContext = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                return $object->getId();
+            },
+        ];
+        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+        $serializer = new Serializer([$normalizer], [new JsonEncoder()]);
+        return $serializer->serialize($objet, 'json');
+    }
     /**
      * @Route("/createTeam", name="createTeam")
      * @param Request $request
@@ -62,13 +78,14 @@ class TeamController extends AbstractController
         return $response;
 
     }
+
     /**
-     * @Route("/getAllTeam", name="getAllTeam")
+     * @Route("/getAllTeam", name="getAllTeam", methods={"GET"})
      * @param Request $request
-     * @param TeamRepository $reportRepository
-     * @return JsonResponse
+     * @param UsersTeamsRepository $TeamRepository
+     * @return Response
      */
-    public function getReportForSummoner(Request $request, TeamRepository $reportRepository){
+    public function getAllTeam(Request $request, TeamRepository $TeamRepository){
         $filter = [];
         $em = $this->getDoctrine()->getManager();
         $metadata = $em->getClassMetadata(Team::class)->getFieldNames();
@@ -77,8 +94,9 @@ class TeamController extends AbstractController
                 $filter[$value] = $request->query->get($value);
             }
         }
-        return JsonResponse::fromJsonString($reportRepository->findBy($filter));
+        return JsonResponse::fromJsonString($this->serializeJson($TeamRepository->findBy($filter)));
     }
+
     /**
      * @Route("/sendInvitation", name="sendInvitation")
      * @param Request $request
