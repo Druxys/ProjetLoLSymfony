@@ -29,3 +29,41 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # ...
+    admin.User:
+        class: App\Admin\UserAdmin
+        arguments: [~, App\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: User, group: User }
+    admin.Tournament:
+        class: App\Admin\TournamentAdmin
+        arguments: [~, App\Entity\Tournament, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Tournament, group: Tournament }
+    admin.Team:
+        class: App\Admin\TeamAdmin
+        arguments: [~, App\Entity\Team, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Team , group: Team} 
+    admin.Rules:
+        class: App\Admin\RulesAdmin
+        arguments: [~, App\Entity\Rules, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Rules , group: Rules} 
+    admin.Report:
+        class: App\Admin\ReportAdmin
+        arguments: [~, App\Entity\Report, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Report , group: Report}
+    admin.UserTeam:
+        class: App\Admin\UsersTeamAdmin
+        arguments: [~, App\Entity\UsersTeams, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: UserTeam , group: UserTeam}
+    admin.Game:
+        class: App\Admin\GameAdmin
+        arguments: [~, App\Entity\Game, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Game , group: Game}
+    
