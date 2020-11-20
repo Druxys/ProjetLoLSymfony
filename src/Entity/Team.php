@@ -30,7 +30,7 @@ class Team
     private $updated_at;
 
     /**
-     * @ORM\OneToMany(targetEntity=UsersTeams::class, mappedBy="team", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=UsersTeams::class, mappedBy="team")
      */
     private $usersTeams;
 
@@ -45,6 +45,7 @@ class Team
     }
     public function __construct()
     {
+        $this->usersTeams = new ArrayCollection();
         $this->created_at = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
     }
 
@@ -78,7 +79,10 @@ class Team
         return $this;
     }
 
-    public function getUsersTeams(): ?UsersTeams
+    /**
+     * @return Collection|UsersTeams[]
+     **/
+    public function getUsersTeams(): Collection
     {
         return $this->usersTeams;
     }
