@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Rules;
+use OpenApi\Annotations as OA;
 use App\Entity\Tournament;
 use App\Form\UpdateRulesTournamentFormType;
 use App\Form\CreateRulesTournamentFormType;
@@ -34,6 +35,7 @@ class RulesController extends AbstractController
     }
     /**
      * @Route("api/rules/create", name="rules", methods={"POST"})
+     * @OA\Tag(name="Rules")
      * @param TournamentRepository $tournamentRepository
      */
     public function CreateRulesTournament(Request $request, ValidatorInterface $validator,TournamentRepository $tournamentRepository )
@@ -72,6 +74,7 @@ class RulesController extends AbstractController
     }
      /**
      * @Route("api/rules/getRules", name="rules_json", methods={"GET"})
+     * @OA\Tag(name="Rules")
      * @param RulesRepository $rulesRepository
      * @param Request $request
      * @return Response
@@ -90,6 +93,7 @@ class RulesController extends AbstractController
     }
         /**
      * @Route("api/rules/update/", name="RulesUpdate", methods={"PATCH"})
+     * @OA\Tag(name="Rules")
      * @param Request $request
      * @param TournamentRepository $ournamentRepository
      * @param RulesRepository $rulesRepository
@@ -120,6 +124,7 @@ class RulesController extends AbstractController
     }
      /**
      * @Route("api/rules/delete", name="rules_delete", methods={"DELETE"})
+     * @OA\Tag(name="Rules")
      * @param Request $request
      * @param RulesRepository $rulesRepository
      * @return Response

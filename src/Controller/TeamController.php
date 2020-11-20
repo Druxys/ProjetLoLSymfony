@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Team;
 use App\Entity\UsersTeams;
+use OpenApi\Annotations as OA;
 use App\Form\CreateTeamFormType;
 use App\Form\SendInvitationFormType;
 use App\Form\UpdateTeamFormType;
@@ -21,6 +22,7 @@ class TeamController extends AbstractController
 {
     /**
      * @Route("/createTeam", name="createTeam")
+     * @OA\Tag(name="Team")
      * @param Request $request
      * @param ValidatorInterface $validator
      * @param UserRepository $userRepository
@@ -64,6 +66,7 @@ class TeamController extends AbstractController
     }
     /**
      * @Route("/getAllTeam", name="getAllTeam")
+     * @OA\Tag(name="Team")
      * @param Request $request
      * @param TeamRepository $reportRepository
      * @return JsonResponse
@@ -81,6 +84,7 @@ class TeamController extends AbstractController
     }
     /**
      * @Route("/sendInvitation", name="sendInvitation")
+     * @OA\Tag(name="Team")
      * @param Request $request
      * @param ValidatorInterface $validator
      * @param TeamRepository $teamRepository
@@ -120,6 +124,7 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/responseInvitation", name="responseInvitation")
+     * @OA\Tag(name="Team")
      * @param Request $request
      * @param UsersTeamsRepository $usersTeamsRepository
      * @return JsonResponse|Response
@@ -153,6 +158,7 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/updateTeam", name="updateTeam")
+      * @OA\Tag(name="Team")
      * @param Request $request
      * @param TeamRepository $teamRepository
      * @param ValidatorInterface $validator
@@ -184,6 +190,7 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/deleteTeam" , name="deleteTeam")
+     * @OA\Tag(name="Team")
      * @param Request $request
      * @param TeamRepository $teamRepository
      * @return Response

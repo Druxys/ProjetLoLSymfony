@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegisterFormType;
 use App\Form\UpdateUserFormType;
+use OpenApi\Annotations as OA;
 use App\Repository\UserRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +39,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/sign-up", name="register", methods={"POST"})
+     * @OA\Tag(name="User")
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Request $request
      * @param ValidatorInterface $validator
@@ -68,6 +70,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/logout", name="app_logout",  methods={"POST"})
+     * @OA\Tag(name="User")
      * @param Request $request
      * @return Response
      */
@@ -78,6 +81,7 @@ class UserController extends AbstractController
     }
     /**
      * @Route("/api/user/update", name="userUpdate", methods={"PATCH"})
+     * @OA\Tag(name="User")
      * @param Request $request
      * @param UserRepository $userRepository
      * @param UserPasswordEncoderInterface $passwordEncoder
@@ -108,6 +112,7 @@ class UserController extends AbstractController
     }
     /**
      * @Route("/api/user/delete", name="userDelete", methods={"DELETE"})
+     * @OA\Tag(name="User")
      * @param Request $request
      * @param UserRepository $userRepository
      * @return Response

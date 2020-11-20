@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use OpenApi\Annotations as OA;
 use App\Entity\Tournament;
 use App\Form\UpdateGameFormType;
 use App\Form\CreateGameFormType;
@@ -34,6 +35,7 @@ class GamesController extends AbstractController
     }
     /**
      * @Route("api/game/create", name="game", methods={"POST"})
+     * @OA\Tag(name="Game")
      * @param TournamentRepository $tournamentRepository
      */
     public function GameCreate(Request $request, ValidatorInterface $validator, TournamentRepository $tournamentRepository)
@@ -72,6 +74,7 @@ class GamesController extends AbstractController
 
     /**
      * @Route("api/game/getAll", name="game_json", methods={"GET"})
+     * @OA\Tag(name="Game")
      * @param GameRepository $gameRepository
      * @param Request $request
      * @return Response
@@ -90,6 +93,7 @@ class GamesController extends AbstractController
     }
     /**
      * @Route("api/game/update/", name="gameUpdate", methods={"PATCH"})
+     * @OA\Tag(name="Game")
      * @param Request $request
      * @param TournamentRepository $ournamentRepository
      * @param GameRepository $gameRepository
@@ -120,6 +124,7 @@ class GamesController extends AbstractController
     }
     /**
      * @Route("api/game/delete", name="game_delete", methods={"DELETE"})
+     * @OA\Tag(name="Game")
      * @param Request $request
      * @param GameRepository $gameRepository
      * @return Response

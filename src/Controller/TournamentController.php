@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tournament;
+use OpenApi\Annotations as OA;
 use App\Form\UpdateTournamentFormType;
 use App\Form\CreateTournamentFormType;
 use App\Repository\TournamentRepository;
@@ -32,6 +33,7 @@ class TournamentController extends AbstractController
     }
     /**
      * @Route("/api/tournament/create", name="tournament", methods={"POST"})
+     * @OA\Tag(name="Tournament")
      */
     public function tournamentCreate(Request $request, ValidatorInterface $validator)
     {
@@ -56,6 +58,7 @@ class TournamentController extends AbstractController
 
     /**
      * @Route("/api/tournament/getAll", name="tournament_json", methods={"GET"})
+     * @OA\Tag(name="Tournament")
      * @param TournamentRepository $tournamentRepository
      * @param Request $request
      * @return Response
@@ -74,6 +77,7 @@ class TournamentController extends AbstractController
     }
     /**
      * @Route("/api/tournament/update/", name="tournamentUpdate", methods={"PATCH"})
+     * @OA\Tag(name="Tournament")
      * @param Request $request
      * @param TournamentRepository $tournamentRepository
      * @return JsonResponse
@@ -102,6 +106,7 @@ class TournamentController extends AbstractController
     }
      /**
      * @Route("/api/tournament/delete", name="tournament_delete", methods={"DELETE"})
+     * @OA\Tag(name="Tournament")
      * @param Request $request
      * @param TournamentRepository $tournamentRepository
      * @return Response
